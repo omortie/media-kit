@@ -79,6 +79,7 @@ void ANGLESurfaceManager::SwapBuffers() {
 }
 
 void ANGLESurfaceManager::Create() {
+  ::WaitForSingleObject(mutex_, INFINITE);
   CleanUp(false);
   if (!CreateD3DTexture()) {
     throw std::runtime_error("Unable to create Windows Direct3D device.");
@@ -96,6 +97,7 @@ void ANGLESurfaceManager::Create() {
     throw std::runtime_error("Unable to retrieve Direct3D shared HANDLE.");
     return;
   }
+  ::ReleaseMutex(mutex_);
 }
 
 void ANGLESurfaceManager::CleanUp(bool release_context) {
