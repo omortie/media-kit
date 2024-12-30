@@ -23,6 +23,7 @@
   }
 
 int ANGLESurfaceManager::instance_count_ = 0;
+HANDLE ANGLESurfaceManager::mutex_ = nullptr;
 
 ANGLESurfaceManager::ANGLESurfaceManager(int32_t width, int32_t height)
     : width_(width), height_(height) {
@@ -34,7 +35,6 @@ ANGLESurfaceManager::ANGLESurfaceManager(int32_t width, int32_t height)
 ANGLESurfaceManager::~ANGLESurfaceManager() {
   CleanUp(true);
   ::ReleaseMutex(mutex_);
-  ::CloseHandle(mutex_);
   instance_count_--;
 }
 
